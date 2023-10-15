@@ -1,0 +1,6 @@
+.idea
+.SRCINFO
+*/trunk/*
+!Makefile
+!*/trunk/PKGBUILD
+!*/trunk/keys

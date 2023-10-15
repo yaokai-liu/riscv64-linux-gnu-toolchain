@@ -1,0 +1,33 @@
+# Maintainer: Felix Yan <felixonmars@archlinux.org>
+# Contributor: Anatol Pomozov <anatol.pomozov@gmail.com>
+
+_target_arch=riscv
+_target=riscv64-linux-gnu
+pkgname=$_target-linux-api-headers
+pkgver=6.5.6
+pkgrel=1
+pkgdesc="Kernel headers sanitized for use in userspace ($_target)"
+arch=(any)
+url='https://www.kernel.org'
+license=(GPL2)
+makedepends=('rsync')
+source=(https://www.kernel.org/pub/linux/kernel/v6.x/linux-$pkgver.tar.{xz,sign})
+sha512sums=('be7da02f4f4c3dff56b36c4462d0e9208c826a89717bd71876adaabc911e3fbf6b72592da6775d06c92f7ab832e27d5f82a0f8b69f244a764c72925607ef86c4'
+            'SKIP')
+validpgpkeys=(
+  'ABAF11C65A2970B130ABE3C479BE3E4300411886'  # Linus Torvalds
+  '647F28654894E3BD457199BE38DBBDC86092693E'  # Greg Kroah-Hartman
+)
+
+
+build() {
+  cd linux-$pkgver
+
+  make ARCH=$_target_arch mrproper
+}
+
+package() {
+  cd linux-$pkgver
+
+  make INSTALL_HDR_PATH="$pkgdir/usr/$_target/" ARCH=$_target_arch V=0 headers_install
+}
